@@ -37,3 +37,10 @@ export interface ScreenerResponse {
   total: number;
   filtered: number;
 }
+
+export interface PaginationInfo {
+  currentPage: number;
+  totalPages: number;
+  pageSize: number;
+  totalItems: number;
+}

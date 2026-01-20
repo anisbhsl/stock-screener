@@ -5,6 +5,8 @@ import FilterPanel from '@/components/FilterPanel';
 import StockTable from '@/components/StockTable';
 import { Stock, ScreenerResponse } from '@/types';
 
+const PAGE_SIZE = 10;
+
 export default function Home() {
   const [exchanges, setExchanges] = useState<('NYSE' | 'NASDAQ')[]>(['NYSE', 'NASDAQ']);
   const [rsiThreshold, setRsiThreshold] = useState(40);
@@ -13,10 +15,12 @@ export default function Home() {
   const [total, setTotal] = useState(0);
   const [filtered, setFiltered] = useState(0);
   const [error, setError] = useState<string | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
 
   const handleScreen = async () => {
     setIsLoading(true);
     setError(null);
+    setCurrentPage(1);
 
     try {
       const params = new URLSearchParams({
@@ -40,6 +44,11 @@ export default function Home() {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (
@@ -81,13 +90,26 @@ export default function Home() {
               isLoading={isLoading}
               total={total}
               filtered={filtered}
+              currentPage={currentPage}
+              pageSize={PAGE_SIZE}
+              onPageChange={handlePageChange}
             />
           </div>
         </div>
 
         {/* Footer */}
         <footer className="mt-12 pt-8 border-t border-gray-200 dark:border-gray-800 text-center text-sm text-gray-500 dark:text-gray-400">
-          <p>Data provided by Yahoo Finance. RSI calculated using 14-period standard.</p>
+          <p className="mb-2">Data provided by Yahoo Finance. RSI calculated using 14-period standard.</p>
+          <p>
+            <a
+              href="https://github.com/anisbhsl/stock-screener"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 text-blue-600 dark:text-blue-400 hover:underline"
+            >
+Vibe coded with ❤️ using Claude
+            </a>
+          </p>
         </footer>
       </div>
     </main>
