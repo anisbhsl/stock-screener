@@ -164,7 +164,14 @@ export default function StockTable({
                     className="hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
                   >
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <span className="font-medium text-foreground">{stock.symbol}</span>
+                      <a
+                        href={`https://www.tradingview.com/chart/ZxrCOvdR/?symbol=${encodeURIComponent(stock.exchange + ':' + stock.symbol)}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="font-medium text-blue-600 dark:text-blue-400 hover:underline"
+                      >
+                        {stock.symbol}
+                      </a>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-gray-600 dark:text-gray-300">
                       {stock.name}
